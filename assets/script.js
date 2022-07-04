@@ -3,6 +3,72 @@ var weatherAPIKey = "1e79202b86812f5f0356dc3a96059c6f";
 
 var citySearch = document.querySelector("#city-search");
 var textInput = document.querySelector("#text-input");
+var currentWeather = document.querySelector("#city-display");
+var fiveDay = document.querySelector("#five-day");
+
+function weatherToday(data) {
+    console.log(data)
+    var uvi = data.current.uvi
+    var cityName = document.createElement("h1")
+    var currentTemp = document.createElement("p")
+    var windSpeed = document.createElement("p")
+    var currentHumidity = document.createElement("p")
+    var uvButton = document.createElement("btn")
+    var uvIndex = document.createElement("p")
+    cityName.textContent = textInput.value.trim();
+    currentTemp.textContent = `Temp: ${data.current.temp}°F`
+    windSpeed.textContent = `Wind: ${data.current.wind_speed} MPH`
+    currentHumidity.textContent = `Humidity: ${data.current.humidity} %`
+    currentWeather.append(cityName, currentTemp, windSpeed, currentHumidity)
+    uvIndex.textContent = `UV Index: `
+    
+    if (uvi < 3){
+        uvButton.classList.add("btn-success")
+    }
+    else if (uvi < 7){
+        uvButton.classList.add("btn-warning")
+    }
+    else{
+        uvButton.classList.add("btn-danger")
+    }
+
+    uvButton.textContent = uvi
+    uvIndex.append(uvButton)
+    currentWeather.append(uvIndex)
+
+    let cityHistory = [];
+
+function fDayForcast (data) {
+    var uvi = data.current.uvi
+    var cityName = document.createElement("h1")
+    var fiveTemp = document.createElement("p")
+    var fiveWindSpeed = document.createElement("p")
+    var fiveHumidity = document.createElement("p")
+    var uvButton = document.createElement("btn")
+    var uvIndex = document.createElement("p")
+    cityName.textContent = textInput.value.trim();
+    fiveTemp.textContent = `Temp: ${data.daily.temp.day}°F`
+    fiveWindSpeed.textContent = `Wind: ${data.daily.wind_speed} MPH`
+    fiveHumidity.textContent = `Humidity: ${data.daily.humidity} %`
+    fiveDay.append(cityName, currentTemp, windSpeed, currentHumidity)
+    uvIndex.textContent = `UV Index: `
+    
+    if (uvi < 3){
+        uvButton.classList.add("btn-success")
+    }
+    else if (uvi < 7){
+        uvButton.classList.add("btn-warning")
+    }
+    else{
+        uvButton.classList.add("btn-danger")
+    }
+
+    uvButton.textContent = uvi
+    uvIndex.append(uvButton)
+    fiveDay.append(uvIndex)
+}
+
+}
 
 function callWeatherAPI(info) {
     var lat = info.lat
@@ -19,7 +85,7 @@ function callWeatherAPI(info) {
 
 function callWeatherAPICords(event) {
     event.preventDefault()
-    var textTrim = textInput.value.trim();
+    var textTrim = textInput.data.trim();
     console.log(textTrim)
     let APIURL = `${weatherAPIURL}/geo/1.0/direct?q=${textTrim}&limit=5&appid=${weatherAPIKey}`
 
@@ -33,7 +99,5 @@ function callWeatherAPICords(event) {
         })
 
 }
-
-
 
 citySearch.addEventListener("submit", callWeatherAPICords)
