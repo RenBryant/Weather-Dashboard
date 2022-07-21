@@ -36,9 +36,7 @@ function weatherToday(data) {
     uvIndex.append(uvButton)
     currentWeather.append(uvIndex)
 
-    let cityHistory = [];
-
-function fDayForcast (data) {
+function fDayForcast(data) {
     var uvi = data.current.uvi
     var cityName = document.createElement("h1")
     var fiveTemp = document.createElement("p")
@@ -84,20 +82,40 @@ function callWeatherAPI(info) {
 }
 
 function callWeatherAPICords(event) {
-    event.preventDefault()
-    var textTrim = textInput.data.trim();
-    console.log(textTrim)
     let APIURL = `${weatherAPIURL}/geo/1.0/direct?q=${textTrim}&limit=5&appid=${weatherAPIKey}`
 
     fetch(APIURL)
         .then(function (res) {
+            if (response.ok) {
+
+            
             return res.json()
-        })
         .then(function (data) {
             callWeatherAPI(data[0])
             console.log("data", data)
         })
+} else {
+    alert ("No Results")
+}
+
+
+//recent search history section
+
+var saveHistory = function(city) {
 
 }
 
-citySearch.addEventListener("submit", callWeatherAPICords)
+var loadHistory = function(city) {
+    localStorage.setItem("city", city);
+}
+
+$(document).ready(loadHistory);
+
+citySearch.addEventListener("submit", callWeatherAPICords);
+document 
+    .querySelector("#history")
+    .addEventListener("click", function (event) {
+        event.preventDefault();
+        let city = event.target.dataset.search;
+        callWeatherAPICords(city);
+    })})};

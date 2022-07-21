@@ -18,5 +18,7 @@ THEN I am again presented with current and future conditions for that city
 
 In this assignment we were assigned to create a dashboard for the weather that uses JS, CSS, and HTML. The application will use API's to pull the weather that the user wants to see.
 
+Unexpected errors are keeping this project from working properly.
+
 This is where the API's are pulled from https://openweathermap.org/api/one-call-api
 
